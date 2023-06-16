@@ -1,0 +1,24 @@
+type Investment {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateInvestmentInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateInvestmentInput {
+  id: Int!
+}
+
+type Query {
+  investments: [Investment]!
+  investment(id: Int!): Investment
+}
+
+type Mutation {
+  createInvestment(createInvestmentInput: CreateInvestmentInput!): Investment!
+  updateInvestment(updateInvestmentInput: UpdateInvestmentInput!): Investment!
+  removeInvestment(id: Int!): Investment
+}
