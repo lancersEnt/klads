@@ -1,0 +1,38 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3",
+        import: ["@key", "@shareable","@external"])
+
+directive @key(fields: String!) on OBJECT | INTERFACE
+
+directive @external on OBJECT | FIELD_DEFINITION
+
+scalar DateTime
+
+
+type Category @key(fields: "id"){
+  # Example field (placeholder)
+  id: ID!
+  name: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CreateCategoryInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateCategoryInput {
+  id: Int!
+}
+
+type Query {
+  categories: [Category]!
+  category(id: Int!): Category
+}
+
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category
+}
