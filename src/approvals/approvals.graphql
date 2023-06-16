@@ -1,0 +1,24 @@
+type Approval {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateApprovalInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateApprovalInput {
+  id: Int!
+}
+
+type Query {
+  approvals: [Approval]!
+  approval(id: Int!): Approval
+}
+
+type Mutation {
+  createApproval(createApprovalInput: CreateApprovalInput!): Approval!
+  updateApproval(updateApprovalInput: UpdateApprovalInput!): Approval!
+  removeApproval(id: Int!): Approval
+}
