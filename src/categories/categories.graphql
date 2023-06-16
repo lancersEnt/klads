@@ -18,21 +18,22 @@ type Category @key(fields: "id"){
 }
 
 input CreateCategoryInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  createdAt: DateTime
 }
 
 input UpdateCategoryInput {
-  id: Int!
+  name: String!
+  updatedAt: DateTime
 }
 
 type Query {
   categories: [Category]!
-  category(id: Int!): Category
+  category(id: String!): Category
 }
 
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
-  removeCategory(id: Int!): Category
+  removeCategory(id: String!): Category
 }

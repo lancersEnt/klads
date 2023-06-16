@@ -1,14 +1,15 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
+import { Prisma } from '@prisma/client';
 
 @Resolver('Category')
 export class CategoriesResolver {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Mutation('createCategory')
-  create(@Args('createCategoryInput') createCategoryInput: CreateCategoryInput) {
+  create(
+    @Args('createCategoryInput') createCategoryInput: Prisma.CompanyCreateInput,
+  ) {
     return this.categoriesService.create(createCategoryInput);
   }
 
@@ -18,17 +19,20 @@ export class CategoriesResolver {
   }
 
   @Query('category')
-  findOne(@Args('id') id: number) {
-    return this.categoriesService.findOne(id);
+  findOne(@Args('id') id: string) {
+    return this.categoriesService.findOne({ id });
   }
 
   @Mutation('updateCategory')
-  update(@Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
-    return this.categoriesService.update(updateCategoryInput.id, updateCategoryInput);
+  update(
+    @Args('id') id: string,
+    @Args('updateCategoryInput') updateCategoryInput: Prisma.CompanyUpdateInput,
+  ) {
+    return this.categoriesService.update({ id }, updateCategoryInput);
   }
 
   @Mutation('removeCategory')
-  remove(@Args('id') id: number) {
-    return this.categoriesService.remove(id);
+  remove(@Args('id') id: string) {
+    return this.categoriesService.remove({ id });
   }
 }
