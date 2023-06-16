@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSubCategoryInput } from './dto/create-sub-category.input';
-import { UpdateSubCategoryInput } from './dto/update-sub-category.input';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class SubCategoriesService {
-  create(createSubCategoryInput: CreateSubCategoryInput) {
-    return 'This action adds a new subCategory';
+  constructor(private prisma: PrismaService) {}
+  create(createSubCategoryInput: Prisma.SubCategoryCreateInput) {
+    return this.prisma.subCategory.create({
+      data: createSubCategoryInput,
+    });
   }
 
   findAll() {
-    return `This action returns all subCategories`;
+    return this.prisma.subCategory.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subCategory`;
+  findOne(uniqueInput: Prisma.SubCategoryWhereUniqueInput) {
+    return this.prisma.subCategory.findUnique({
+      where: uniqueInput,
+    });
   }
 
-  update(id: number, updateSubCategoryInput: UpdateSubCategoryInput) {
-    return `This action updates a #${id} subCategory`;
+  update(
+    uniqueInput: Prisma.SubCategoryWhereUniqueInput,
+    updateSubCategoryInput: Prisma.SubCategoryUpdateInput,
+  ) {
+    return this.prisma.subCategory.update({
+      where: uniqueInput,
+      data: updateSubCategoryInput,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subCategory`;
+  remove(uniqueInput: Prisma.SubCategoryWhereUniqueInput) {
+    return this.prisma.subCategory.delete({
+      where: uniqueInput,
+    });
   }
 }

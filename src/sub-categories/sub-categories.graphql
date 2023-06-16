@@ -22,21 +22,24 @@ extend type Category @key(fields: "id"){
 }
 
 input CreateSubCategoryInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  categoryId: String!
+  createdAt: DateTime
 }
 
 input UpdateSubCategoryInput {
-  id: Int!
+  name: String!
+  categoryId: String!
+  updatedAt: DateTime
 }
 
 type Query {
   subCategories: [SubCategory]!
-  subCategory(id: Int!): SubCategory
+  subCategory(id: String!): SubCategory
 }
 
 type Mutation {
   createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
-  updateSubCategory(updateSubCategoryInput: UpdateSubCategoryInput!): SubCategory!
-  removeSubCategory(id: Int!): SubCategory
+  updateSubCategory(id:String!,updateSubCategoryInput: UpdateSubCategoryInput!): SubCategory!
+  removeSubCategory(id: String!): SubCategory
 }

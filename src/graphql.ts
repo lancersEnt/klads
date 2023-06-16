@@ -72,11 +72,15 @@ export class UpdateMilestoneInput {
 }
 
 export class CreateSubCategoryInput {
-    exampleField?: Nullable<number>;
+    name: string;
+    categoryId: string;
+    createdAt?: Nullable<DateTime>;
 }
 
 export class UpdateSubCategoryInput {
-    id: number;
+    name: string;
+    categoryId: string;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export class Approval {
@@ -110,7 +114,7 @@ export abstract class IQuery {
 
     abstract subCategories(): Nullable<SubCategory>[] | Promise<Nullable<SubCategory>[]>;
 
-    abstract subCategory(id: number): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
+    abstract subCategory(id: string): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
 }
 
 export abstract class IMutation {
@@ -152,9 +156,9 @@ export abstract class IMutation {
 
     abstract createSubCategory(createSubCategoryInput: CreateSubCategoryInput): SubCategory | Promise<SubCategory>;
 
-    abstract updateSubCategory(updateSubCategoryInput: UpdateSubCategoryInput): SubCategory | Promise<SubCategory>;
+    abstract updateSubCategory(id: string, updateSubCategoryInput: UpdateSubCategoryInput): SubCategory | Promise<SubCategory>;
 
-    abstract removeSubCategory(id: number): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
+    abstract removeSubCategory(id: string): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
 }
 
 export class Category {

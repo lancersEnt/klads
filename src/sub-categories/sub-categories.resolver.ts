@@ -1,14 +1,16 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { SubCategoriesService } from './sub-categories.service';
-import { CreateSubCategoryInput } from './dto/create-sub-category.input';
-import { UpdateSubCategoryInput } from './dto/update-sub-category.input';
+import { Prisma } from '@prisma/client';
 
 @Resolver('SubCategory')
 export class SubCategoriesResolver {
   constructor(private readonly subCategoriesService: SubCategoriesService) {}
 
   @Mutation('createSubCategory')
-  create(@Args('createSubCategoryInput') createSubCategoryInput: CreateSubCategoryInput) {
+  create(
+    @Args('createSubCategoryInput')
+    createSubCategoryInput: Prisma.SubCategoryCreateInput,
+  ) {
     return this.subCategoriesService.create(createSubCategoryInput);
   }
 
@@ -18,17 +20,21 @@ export class SubCategoriesResolver {
   }
 
   @Query('subCategory')
-  findOne(@Args('id') id: number) {
-    return this.subCategoriesService.findOne(id);
+  findOne(@Args('id') id: string) {
+    return this.subCategoriesService.findOne({ id });
   }
 
   @Mutation('updateSubCategory')
-  update(@Args('updateSubCategoryInput') updateSubCategoryInput: UpdateSubCategoryInput) {
-    return this.subCategoriesService.update(updateSubCategoryInput.id, updateSubCategoryInput);
+  update(
+    @Args('id') id: string,
+    @Args('updateSubCategoryInput')
+    updateSubCategoryInput: Prisma.SubCategoryUpdateInput,
+  ) {
+    return this.subCategoriesService.update({ id }, updateSubCategoryInput);
   }
 
   @Mutation('removeSubCategory')
-  remove(@Args('id') id: number) {
-    return this.subCategoriesService.remove(id);
+  remove(@Args('id') id: string) {
+    return this.subCategoriesService.remove({ id });
   }
 }
