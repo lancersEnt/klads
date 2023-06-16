@@ -1,14 +1,13 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { KladsService } from './klads.service';
-import { CreateKladInput } from './dto/create-klad.input';
-import { UpdateKladInput } from './dto/update-klad.input';
+import { Prisma } from '@prisma/client';
 
 @Resolver('Klad')
 export class KladsResolver {
   constructor(private readonly kladsService: KladsService) {}
 
   @Mutation('createKlad')
-  create(@Args('createKladInput') createKladInput: CreateKladInput) {
+  create(@Args('createKladInput') createKladInput: Prisma.KladCreateInput) {
     return this.kladsService.create(createKladInput);
   }
 
@@ -18,17 +17,20 @@ export class KladsResolver {
   }
 
   @Query('klad')
-  findOne(@Args('id') id: number) {
-    return this.kladsService.findOne(id);
+  findOne(@Args('id') id: string) {
+    return this.kladsService.findOne({ id });
   }
 
   @Mutation('updateKlad')
-  update(@Args('updateKladInput') updateKladInput: UpdateKladInput) {
-    return this.kladsService.update(updateKladInput.id, updateKladInput);
+  update(
+    @Args('id') id: string,
+    @Args('updateKladInput') updateKladInput: Prisma.KladUpdateInput,
+  ) {
+    return this.kladsService.update({ id }, updateKladInput);
   }
 
   @Mutation('removeKlad')
-  remove(@Args('id') id: number) {
-    return this.kladsService.remove(id);
+  remove(@Args('id') id: string) {
+    return this.kladsService.remove({ id });
   }
 }

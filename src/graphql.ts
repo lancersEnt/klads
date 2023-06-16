@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -56,11 +57,39 @@ export class UpdateInvestmentInput {
 }
 
 export class CreateKladInput {
-    exampleField?: Nullable<string>;
+    ownerId: string;
+    isApproved: boolean;
+    isRejected: boolean;
+    name: string;
+    categoryId: string;
+    subCategoryId: string;
+    description: string;
+    tags?: Nullable<Nullable<string>[]>;
+    companyId: string;
+    budgetNeeded: number;
+    budgetCollected: number;
+    partPrice: number;
+    minPartsPurchasable: number;
+    maxPartsPurchasable: number;
+    createdAt?: Nullable<DateTime>;
 }
 
 export class UpdateKladInput {
-    id?: Nullable<string>;
+    ownerId?: Nullable<string>;
+    isApproved?: Nullable<boolean>;
+    isRejected?: Nullable<boolean>;
+    name?: Nullable<string>;
+    categoryId?: Nullable<string>;
+    subCategoryId?: Nullable<string>;
+    description?: Nullable<string>;
+    tags?: Nullable<Nullable<string>[]>;
+    companyId?: Nullable<string>;
+    budgetNeeded?: Nullable<number>;
+    budgetCollected?: Nullable<number>;
+    partPrice?: Nullable<number>;
+    minPartsPurchasable?: Nullable<number>;
+    maxPartsPurchasable?: Nullable<number>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export class CreateMilestoneInput {
@@ -198,7 +227,7 @@ export class Klad {
     subCategoryId: string;
     description: string;
     tags?: Nullable<Nullable<string>[]>;
-    CompanyId: string;
+    companyId: string;
     budgetNeeded: number;
     budgetCollected: number;
     partPrice: number;
@@ -217,6 +246,7 @@ export class SubCategory {
     klads?: Nullable<Klad[]>;
     name: string;
     categoryId: string;
+    category?: Nullable<Category>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }

@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateKladInput } from './dto/create-klad.input';
-import { UpdateKladInput } from './dto/update-klad.input';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class KladsService {
-  create(createKladInput: CreateKladInput) {
-    return 'This action adds a new klad';
+  constructor(private prisma: PrismaService) {}
+  create(createKladInput: Prisma.KladCreateInput) {
+    return this.prisma.klad.create({
+      data: createKladInput,
+    });
   }
 
   findAll() {
-    return `This action returns all klads`;
+    return this.prisma.klad.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} klad`;
+  findOne(uniqueInput: Prisma.KladWhereUniqueInput) {
+    return this.prisma.klad.findUnique({
+      where: uniqueInput,
+    });
   }
 
-  update(id: number, updateKladInput: UpdateKladInput) {
-    return `This action updates a #${id} klad`;
+  update(
+    uniqueInput: Prisma.KladWhereUniqueInput,
+    updateKladInput: Prisma.KladUpdateInput,
+  ) {
+    return this.prisma.klad.update({
+      where: uniqueInput,
+      data: updateKladInput,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} klad`;
+  remove(uniqueInput: Prisma.KladWhereUniqueInput) {
+    return this.prisma.klad.delete({
+      where: uniqueInput,
+    });
   }
 }

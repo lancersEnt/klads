@@ -12,12 +12,13 @@ type SubCategory @key(fields: "id"){
   id: ID!
   name: String!
   categoryId: String!
+  category: Category
   createdAt: DateTime
   updatedAt: DateTime
 }
 
 extend type Category @key(fields: "id"){
-  id: ID! @external
+  id: ID!
   subCategories: [SubCategory!]
 }
 

@@ -20,7 +20,7 @@ type Klad @key(fields: "id"){
   subCategoryId: String!
   description: String!
   tags: [String]
-  CompanyId: String!
+  companyId: String!
   budgetNeeded: Float!
   budgetCollected: Float!
   partPrice: Float!
@@ -35,32 +35,59 @@ type Klad @key(fields: "id"){
 }
 
 extend type User @key(fields: "id") {
-  id:ID! @external
+  id:ID!
   klads: [Klad!]
 }
 
 extend type Category @key(fields: "id"){
-  id: ID! @external
+  id: ID!
   klads: [Klad!]
 }
 
 extend type SubCategory @key(fields: "id"){
-  id: ID! @external
+  id: ID!
   klads: [Klad!]
 }
 
 extend type Company @key(fields: "id"){
-  id: ID! @external
+  id: ID!
   klads: [Klad!]
 }
 
 input CreateKladInput {
-  # Example field (placeholder)
-  exampleField: String
+  ownerId: String!
+  isApproved: Boolean!
+  isRejected: Boolean!
+  name: String!
+  categoryId: String!
+  subCategoryId: String!
+  description: String!
+  tags: [String]
+  companyId: String!
+  budgetNeeded: Float!
+  budgetCollected: Float!
+  partPrice: Float!
+  minPartsPurchasable: Int!
+  maxPartsPurchasable: Int!
+  createdAt: DateTime
 }
 
 input UpdateKladInput {
-  id: String
+  ownerId: String
+  isApproved: Boolean
+  isRejected: Boolean
+  name: String
+  categoryId: String
+  subCategoryId: String
+  description: String
+  tags: [String]
+  companyId: String
+  budgetNeeded: Float
+  budgetCollected: Float
+  partPrice: Float
+  minPartsPurchasable: Int
+  maxPartsPurchasable: Int
+  updatedAt: DateTime
 }
 
 type Query {
