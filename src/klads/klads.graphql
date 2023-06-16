@@ -1,0 +1,75 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3",
+        import: ["@key", "@shareable","@external"])
+
+directive @key(fields: String!) on OBJECT | INTERFACE
+
+directive @external on OBJECT | FIELD_DEFINITION
+
+scalar DateTime
+
+
+type Klad @key(fields: "id"){
+  # Example field (placeholder)
+  id: ID!
+  ownerId: String!
+  isApproved: Boolean!
+  isRejected: Boolean!
+  name: String!
+  categoryId: String!
+  subCategoryId: String!
+  description: String!
+  tags: [String]
+  CompanyId: String!
+  budgetNeeded: Float!
+  budgetCollected: Float!
+  partPrice: Float!
+  minPartsPurchasable: int!
+  maxPartsPurchasable: int!
+  owner: User
+  category: Category
+  subCategory: SubCategory
+  company: Company
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type User @key(fields: "id") {
+  id:ID! @external
+  klads: [klad!]
+}
+
+extend type Category @key(fields: "id"){
+  id: ID! @external
+  klads: [klad!]
+}
+
+extend type SubCategory @key(fields: "id"){
+  id: ID! @external
+  klads: [klad!]
+}
+
+extend type Company @key(fields: "id"){
+  id: ID! @external
+  klads: [klad!]
+}
+
+input CreateKladInput {
+  # Example field (placeholder)
+  exampleField: String
+}
+
+input UpdateKladInput {
+  id: String
+}
+
+type Query {
+  klads: [Klad]!
+  klad(id: String!): Klad
+}
+
+type Mutation {
+  createKlad(createKladInput: CreateKladInput!): Klad!
+  updateKlad(updateKladInput: UpdateKladInput!): Klad!
+  removeKlad(id: String!): Klad
+}
