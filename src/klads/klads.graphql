@@ -24,8 +24,8 @@ type Klad @key(fields: "id"){
   budgetNeeded: Float!
   budgetCollected: Float!
   partPrice: Float!
-  minPartsPurchasable: int!
-  maxPartsPurchasable: int!
+  minPartsPurchasable: Int!
+  maxPartsPurchasable: Int!
   owner: User
   category: Category
   subCategory: SubCategory
@@ -36,22 +36,22 @@ type Klad @key(fields: "id"){
 
 extend type User @key(fields: "id") {
   id:ID! @external
-  klads: [klad!]
+  klads: [Klad!]
 }
 
 extend type Category @key(fields: "id"){
   id: ID! @external
-  klads: [klad!]
+  klads: [Klad!]
 }
 
 extend type SubCategory @key(fields: "id"){
   id: ID! @external
-  klads: [klad!]
+  klads: [Klad!]
 }
 
 extend type Company @key(fields: "id"){
   id: ID! @external
-  klads: [klad!]
+  klads: [Klad!]
 }
 
 input CreateKladInput {

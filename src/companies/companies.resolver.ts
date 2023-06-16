@@ -1,14 +1,15 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CompaniesService } from './companies.service';
-import { CreateCompanyInput } from './dto/create-company.input';
-import { UpdateCompanyInput } from './dto/update-company.input';
+import { Prisma } from '@prisma/client';
 
 @Resolver('Company')
 export class CompaniesResolver {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Mutation('createCompany')
-  create(@Args('createCompanyInput') createCompanyInput: CreateCompanyInput) {
+  create(
+    @Args('createCompanyInput') createCompanyInput: Prisma.CompanyCreateInput,
+  ) {
     return this.companiesService.create(createCompanyInput);
   }
 
@@ -18,17 +19,20 @@ export class CompaniesResolver {
   }
 
   @Query('company')
-  findOne(@Args('id') id: number) {
-    return this.companiesService.findOne(id);
+  findOne(@Args('id') id: string) {
+    return this.companiesService.findOne({ id });
   }
 
   @Mutation('updateCompany')
-  update(@Args('updateCompanyInput') updateCompanyInput: UpdateCompanyInput) {
-    return this.companiesService.update(updateCompanyInput.id, updateCompanyInput);
+  update(
+    @Args('id') id: string,
+    @Args('updateCompanyInput') updateCompanyInput: Prisma.CompanyUpdateInput,
+  ) {
+    return this.companiesService.update({ id }, updateCompanyInput);
   }
 
   @Mutation('removeCompany')
-  remove(@Args('id') id: number) {
-    return this.companiesService.remove(id);
+  remove(@Args('id') id: string) {
+    return this.companiesService.remove({ id });
   }
 }

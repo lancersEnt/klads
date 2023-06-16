@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.7.4",
+    "@apollo/subgraph": "^2.4.8",
     "@nestjs/apollo": "^11.0.6",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
@@ -36,7 +37,8 @@
     "cookie-parser": "^1.4.6",
     "graphql-scalars": "^1.22.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "ts-morph": "^18.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
