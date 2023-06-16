@@ -1,0 +1,24 @@
+type Milestone {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateMilestoneInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateMilestoneInput {
+  id: Int!
+}
+
+type Query {
+  milestones: [Milestone]!
+  milestone(id: Int!): Milestone
+}
+
+type Mutation {
+  createMilestone(createMilestoneInput: CreateMilestoneInput!): Milestone!
+  updateMilestone(updateMilestoneInput: UpdateMilestoneInput!): Milestone!
+  removeMilestone(id: Int!): Milestone
+}
