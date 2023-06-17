@@ -1,0 +1,56 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3",
+        import: ["@key", "@shareable","@external"])
+
+directive @key(fields: String!) on OBJECT | INTERFACE
+
+directive @external on OBJECT | FIELD_DEFINITION
+
+scalar DateTime
+
+type Company @key(fields: "id") {
+  id: ID!
+  name: String!
+  adress: String!
+  city: String!
+  state: String!
+  country: String!
+  email: String!
+  website: String
+  klads: [Klad]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CreateCompanyInput {
+  name: String!
+  adress: String!
+  city: String!
+  state: String!
+  country: String!
+  email: String!
+  website: String
+  createdAt: DateTime
+}
+
+input UpdateCompanyInput {
+  name: String
+  adress: String
+  city: String
+  state: String
+  country: String
+  email: String
+  website: String
+  updatedAt: DateTime
+}
+
+type Query {
+  companies: [Company]!
+  company(id: String!): Company
+}
+
+type Mutation {
+  createCompany(createCompanyInput: CreateCompanyInput!): Company!
+  updateCompany(id: String!, updateCompanyInput: UpdateCompanyInput!): Company!
+  removeCompany(id: String!): Company
+}

@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Klad {
+    id                  String      @id @default(uuid()) @map("_id") 
+    ownerId             String
+    isApproved          Boolean     @default(false)
+    isRejected          Boolean     @default(false)
+    name                String
+    categoryId          String
+    subCategoryId       String
+    description         String
+    tags                String[]
+    companyId           String
+    budgetNeeded        Float
+    budgetCollected     Float       @default(0)     
+    partPrice           Float
+    minPartsPurchasable Int
+    maxPartsPurchasable Int
+    createdAt           DateTime?   @default(now())
+    updatedAt           DateTime?   @default(now())
+
+}
+
+model Category{
+  id                    String      @id @default(uuid()) @map("_id") 
+  name                  String
+  createdAt             DateTime?   @default(now())
+  updatedAt             DateTime?   @default(now())
+
+}
+
+model SubCategory{
+  id                    String      @id @default(uuid()) @map("_id")
+  name                  String
+  categoryId            String
+  createdAt             DateTime?   @default(now())
+  updatedAt             DateTime?   @default(now())
+}
+
+model Company{
+  id                    String      @id @default(uuid()) @map("_id") 
+  name                  String
+  adress                String
+  city                  String
+  state                 String
+  country               String
+  email                 String
+  website               String
+  createdAt             DateTime?   @default(now())
+  updatedAt             DateTime?   @default(now())
+}
+
+model Milestone{
+  id                    String      @id @default(uuid()) @map("_id")
+  name                  String
+  dueDate               DateTime
+  kladId                String
+  createdAt             DateTime?   @default(now())
+  updatedAt             DateTime?   @default(now())
+}
