@@ -1,8 +1,6 @@
 extend schema
   @link(url: "https://specs.apollo.dev/federation/v2.3",
-        import: ["@key", "@shareable","@external"])
-
-directive @key(fields: String!) on OBJECT | INTERFACE
+        import: ["@key", "@shareable"])
 
 directive @external on OBJECT | FIELD_DEFINITION
 
@@ -10,7 +8,6 @@ scalar DateTime
 
 
 type Klad @key(fields: "id"){
-  # Example field (placeholder)
   id: ID!
   ownerId: String!
   isApproved: Boolean!
@@ -36,8 +33,8 @@ type Klad @key(fields: "id"){
 }
 
 extend type User @key(fields: "id") {
-  id:ID!
-  klads: [Klad!]
+  id:ID! @external
+  klads: [Klad]
 }
 
 input CreateKladInput {
@@ -76,7 +73,7 @@ input UpdateKladInput {
   updatedAt: DateTime
 }
 
-type Query {
+extend type Query {
   klads: [Klad]!
   klad(id: String!): Klad
 }

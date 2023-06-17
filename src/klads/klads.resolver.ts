@@ -8,7 +8,14 @@ import {
 } from '@nestjs/graphql';
 import { KladsService } from './klads.service';
 import { Prisma } from '@prisma/client';
-import { Category, Company, Klad, Milestone, SubCategory } from 'src/graphql';
+import {
+  Category,
+  Company,
+  Klad,
+  Milestone,
+  SubCategory,
+  User,
+} from 'src/graphql';
 import { CategoriesService } from 'src/categories/categories.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
 import { CompaniesService } from 'src/companies/companies.service';
@@ -70,5 +77,10 @@ export class KladsResolver {
   @ResolveField('milestones', () => [Milestone])
   milestones(@Parent() klad: Klad) {
     return this.milestonesService.forKlad(klad.id);
+  }
+
+  @ResolveField('owner', () => User)
+  owner(@Parent() klad: Klad): any {
+    return { __typename: 'User', id: klad.ownerId };
   }
 }
