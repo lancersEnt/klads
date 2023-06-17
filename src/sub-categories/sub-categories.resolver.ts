@@ -1,10 +1,22 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { SubCategoriesService } from './sub-categories.service';
 import { Prisma } from '@prisma/client';
+import { Category, SubCategory } from 'src/graphql';
+import { CategoriesService } from 'src/categories/categories.service';
 
 @Resolver('SubCategory')
 export class SubCategoriesResolver {
-  constructor(private readonly subCategoriesService: SubCategoriesService) {}
+  constructor(
+    private readonly subCategoriesService: SubCategoriesService,
+    private readonly categoriesService: CategoriesService,
+  ) {}
 
   @Mutation('createSubCategory')
   create(
@@ -36,5 +48,10 @@ export class SubCategoriesResolver {
   @Mutation('removeSubCategory')
   remove(@Args('id') id: string) {
     return this.subCategoriesService.remove({ id });
+  }
+
+  @ResolveField('category', () => Category)
+  category(@Parent() subCategory: SubCategory) {
+    return this.categoriesService.findOne({ id: subCategory.categoryId });
   }
 }

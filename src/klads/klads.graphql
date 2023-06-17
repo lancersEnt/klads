@@ -39,21 +39,6 @@ extend type User @key(fields: "id") {
   klads: [Klad!]
 }
 
-extend type Category @key(fields: "id"){
-  id: ID!
-  klads: [Klad!]
-}
-
-extend type SubCategory @key(fields: "id"){
-  id: ID!
-  klads: [Klad!]
-}
-
-extend type Company @key(fields: "id"){
-  id: ID!
-  klads: [Klad!]
-}
-
 input CreateKladInput {
   ownerId: String!
   isApproved: Boolean!

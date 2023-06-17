@@ -1,10 +1,3 @@
-extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.3",
-        import: ["@key", "@shareable","@external"])
-
-directive @key(fields: String!) on OBJECT | INTERFACE
-
-directive @external on OBJECT | FIELD_DEFINITION
 
 scalar DateTime
 
@@ -13,13 +6,9 @@ type SubCategory @key(fields: "id"){
   name: String!
   categoryId: String!
   category: Category
+  klads: [Klad]
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-extend type Category @key(fields: "id"){
-  id: ID!
-  subCategories: [SubCategory!]
 }
 
 input CreateSubCategoryInput {

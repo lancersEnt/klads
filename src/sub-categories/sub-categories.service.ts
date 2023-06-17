@@ -36,4 +36,12 @@ export class SubCategoriesService {
       where: uniqueInput,
     });
   }
+
+  forCategory(id: string) {
+    return this.prisma.subCategory.findMany({
+      where: {
+        categoryId: id,
+      },
+    });
+  }
 }

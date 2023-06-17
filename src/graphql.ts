@@ -193,10 +193,10 @@ export abstract class IMutation {
 export class Category {
     id: string;
     name: string;
+    subCategories?: Nullable<SubCategory[]>;
+    klads?: Nullable<Nullable<Klad>[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    klads?: Nullable<Klad[]>;
-    subCategories?: Nullable<SubCategory[]>;
 }
 
 export class Company {
@@ -210,7 +210,6 @@ export class Company {
     website?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-    klads?: Nullable<Klad[]>;
 }
 
 export class Investment {
@@ -241,18 +240,18 @@ export class Klad {
     updatedAt?: Nullable<DateTime>;
 }
 
+export class Milestone {
+    exampleField?: Nullable<number>;
+}
+
 export class SubCategory {
     id: string;
-    klads?: Nullable<Klad[]>;
     name: string;
     categoryId: string;
     category?: Nullable<Category>;
+    klads?: Nullable<Nullable<Klad>[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-}
-
-export class Milestone {
-    exampleField?: Nullable<number>;
 }
 
 export class User {
