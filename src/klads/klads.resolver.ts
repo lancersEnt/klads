@@ -13,7 +13,6 @@ import { CategoriesService } from 'src/categories/categories.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
 import { CompaniesService } from 'src/companies/companies.service';
 import { MilestonesService } from 'src/milestones/milestones.service';
-import { log } from 'console';
 
 @Resolver('Klad')
 export class KladsResolver {

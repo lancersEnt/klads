@@ -10,7 +10,6 @@ import { MilestonesService } from './milestones.service';
 import { Prisma } from '@prisma/client';
 import { Klad, Milestone } from 'src/graphql';
 import { KladsService } from 'src/klads/klads.service';
-import { log } from 'console';
 
 @Resolver('Milestone')
 export class MilestonesResolver {
