@@ -1,24 +1,40 @@
 type Milestone {
-  # Example field (placeholder)
-  exampleField: Int
+
+  id: ID!
+	name: String!
+	dueDate: DateTime!
+	kladId: String!
+  klad: Klad
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input CreateMilestoneInput {
-  # Example field (placeholder)
-  exampleField: Int
+  kladId: String!
+	name: String!
+	dueDate: DateTime!
+  createdAt: DateTime
 }
 
+
 input UpdateMilestoneInput {
-  id: Int!
+  kladId: String
+	name: String
+	dueDate: DateTime
+  updatedAt: DateTime
+}
+
+type CreateManyMilestonesOutput{
+  milestonesCreated: Int!
 }
 
 type Query {
-  milestones: [Milestone]!
-  milestone(id: Int!): Milestone
+  milestones(kladId: String): [Milestone]!
+  milestone(id: String!): Milestone
 }
 
 type Mutation {
-  createMilestone(createMilestoneInput: CreateMilestoneInput!): Milestone!
-  updateMilestone(updateMilestoneInput: UpdateMilestoneInput!): Milestone!
-  removeMilestone(id: Int!): Milestone
+  createMilestones(createManyMilestonesInput: [CreateMilestoneInput]!): CreateManyMilestonesOutput!
+  updateMilestone(id: String!, updateMilestoneInput: UpdateMilestoneInput!): Milestone!
+  removeMilestone(id: String!): Milestone
 }

@@ -22,7 +22,7 @@ export class CreateCategoryInput {
 }
 
 export class UpdateCategoryInput {
-    name: string;
+    name?: Nullable<string>;
     updatedAt?: Nullable<DateTime>;
 }
 
@@ -93,11 +93,17 @@ export class UpdateKladInput {
 }
 
 export class CreateMilestoneInput {
-    exampleField?: Nullable<number>;
+    kladId: string;
+    name: string;
+    dueDate: DateTime;
+    createdAt?: Nullable<DateTime>;
 }
 
 export class UpdateMilestoneInput {
-    id: number;
+    kladId?: Nullable<string>;
+    name?: Nullable<string>;
+    dueDate?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export class CreateSubCategoryInput {
@@ -137,9 +143,9 @@ export abstract class IQuery {
 
     abstract klad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
 
-    abstract milestones(): Nullable<Milestone>[] | Promise<Nullable<Milestone>[]>;
+    abstract milestones(kladId?: Nullable<string>): Nullable<Milestone>[] | Promise<Nullable<Milestone>[]>;
 
-    abstract milestone(id: number): Nullable<Milestone> | Promise<Nullable<Milestone>>;
+    abstract milestone(id: string): Nullable<Milestone> | Promise<Nullable<Milestone>>;
 
     abstract subCategories(): Nullable<SubCategory>[] | Promise<Nullable<SubCategory>[]>;
 
@@ -177,11 +183,11 @@ export abstract class IMutation {
 
     abstract removeKlad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
 
-    abstract createMilestone(createMilestoneInput: CreateMilestoneInput): Milestone | Promise<Milestone>;
+    abstract createMilestones(createManyMilestonesInput: Nullable<CreateMilestoneInput>[]): CreateManyMilestonesOutput | Promise<CreateManyMilestonesOutput>;
 
-    abstract updateMilestone(updateMilestoneInput: UpdateMilestoneInput): Milestone | Promise<Milestone>;
+    abstract updateMilestone(id: string, updateMilestoneInput: UpdateMilestoneInput): Milestone | Promise<Milestone>;
 
-    abstract removeMilestone(id: number): Nullable<Milestone> | Promise<Nullable<Milestone>>;
+    abstract removeMilestone(id: string): Nullable<Milestone> | Promise<Nullable<Milestone>>;
 
     abstract createSubCategory(createSubCategoryInput: CreateSubCategoryInput): SubCategory | Promise<SubCategory>;
 
@@ -233,6 +239,7 @@ export class Klad {
     partPrice: number;
     minPartsPurchasable: number;
     maxPartsPurchasable: number;
+    milestones?: Nullable<Nullable<Milestone>[]>;
     owner?: Nullable<User>;
     category?: Nullable<Category>;
     subCategory?: Nullable<SubCategory>;
@@ -242,7 +249,17 @@ export class Klad {
 }
 
 export class Milestone {
-    exampleField?: Nullable<number>;
+    id: string;
+    name: string;
+    dueDate: DateTime;
+    kladId: string;
+    klad?: Nullable<Klad>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+}
+
+export class CreateManyMilestonesOutput {
+    milestonesCreated: number;
 }
 
 export class SubCategory {

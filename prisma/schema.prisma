@@ -32,7 +32,7 @@ model Klad {
 }
 
 model Category{
-  id                    String @id @default(uuid()) @map("_id") 
+  id                    String      @id @default(uuid()) @map("_id") 
   name                  String
   createdAt             DateTime?   @default(now())
   updatedAt             DateTime?   @default(now())
@@ -40,7 +40,7 @@ model Category{
 }
 
 model SubCategory{
-  id                    String @id @default(uuid()) @map("_id")
+  id                    String      @id @default(uuid()) @map("_id")
   name                  String
   categoryId            String
   createdAt             DateTime?   @default(now())
@@ -48,7 +48,7 @@ model SubCategory{
 }
 
 model Company{
-  id                    String @id @default(uuid()) @map("_id") 
+  id                    String      @id @default(uuid()) @map("_id") 
   name                  String
   adress                String
   city                  String
@@ -56,6 +56,15 @@ model Company{
   country               String
   email                 String
   website               String
+  createdAt             DateTime?   @default(now())
+  updatedAt             DateTime?   @default(now())
+}
+
+model Milestone{
+  id                    String      @id @default(uuid()) @map("_id")
+  name                  String
+  dueDate               DateTime
+  kladId                String
   createdAt             DateTime?   @default(now())
   updatedAt             DateTime?   @default(now())
 }

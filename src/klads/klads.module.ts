@@ -5,6 +5,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { CompaniesService } from 'src/companies/companies.service';
 import { CategoriesService } from 'src/categories/categories.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
+import { MilestonesService } from 'src/milestones/milestones.service';
 
 @Module({
   providers: [
@@ -14,6 +15,7 @@ import { SubCategoriesService } from 'src/sub-categories/sub-categories.service'
     SubCategoriesService,
     CategoriesService,
     CompaniesService,
+    MilestonesService,
   ],
 })
 export class KladsModule {}

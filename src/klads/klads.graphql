@@ -26,6 +26,7 @@ type Klad @key(fields: "id"){
   partPrice: Float!
   minPartsPurchasable: Int!
   maxPartsPurchasable: Int!
+  milestones: [Milestone]
   owner: User
   category: Category
   subCategory: SubCategory

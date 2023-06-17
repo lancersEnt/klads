@@ -1,26 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMilestoneInput } from './dto/create-milestone.input';
-import { UpdateMilestoneInput } from './dto/update-milestone.input';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class MilestonesService {
-  create(createMilestoneInput: CreateMilestoneInput) {
-    return 'This action adds a new milestone';
+  constructor(private prisma: PrismaService) {}
+
+  create(createManyMilestonesInput: Prisma.MilestoneCreateManyInput) {
+    return this.prisma.milestone.createMany({
+      data: createManyMilestonesInput,
+    });
   }
 
-  findAll() {
-    return `This action returns all milestones`;
+  findAllByKlad(kladId: string) {
+    return this.prisma.milestone.findMany({
+      where: { kladId },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} milestone`;
+  findOne(uniqueInput: Prisma.MilestoneWhereUniqueInput) {
+    return this.prisma.milestone.findUnique({
+      where: uniqueInput,
+    });
   }
 
-  update(id: number, updateMilestoneInput: UpdateMilestoneInput) {
-    return `This action updates a #${id} milestone`;
+  update(
+    uniqueInput: Prisma.MilestoneWhereUniqueInput,
+    updateMilestoneInput: Prisma.MilestoneUpdateInput,
+  ) {
+    return this.prisma.milestone.update({
+      where: uniqueInput,
+      data: updateMilestoneInput,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} milestone`;
+  remove(uniqueInput: Prisma.MilestoneWhereUniqueInput) {
+    return this.prisma.milestone.delete({
+      where: uniqueInput,
+    });
+  }
+
+  forKlad(id: string) {
+    return this.prisma.milestone.findMany({
+      where: {
+        kladId: id,
+      },
+    });
   }
 }

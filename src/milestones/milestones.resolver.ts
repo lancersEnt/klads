@@ -1,34 +1,61 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { MilestonesService } from './milestones.service';
-import { CreateMilestoneInput } from './dto/create-milestone.input';
-import { UpdateMilestoneInput } from './dto/update-milestone.input';
+import { Prisma } from '@prisma/client';
+import { Klad, Milestone } from 'src/graphql';
+import { KladsService } from 'src/klads/klads.service';
+import { log } from 'console';
 
 @Resolver('Milestone')
 export class MilestonesResolver {
-  constructor(private readonly milestonesService: MilestonesService) {}
+  constructor(
+    private readonly milestonesService: MilestonesService,
+    private readonly kladsService: KladsService,
+  ) {}
 
-  @Mutation('createMilestone')
-  create(@Args('createMilestoneInput') createMilestoneInput: CreateMilestoneInput) {
-    return this.milestonesService.create(createMilestoneInput);
+  @Mutation('createMilestones')
+  async create(
+    @Args('createManyMilestonesInput')
+    createManyMilestonesInput: Prisma.MilestoneCreateManyInput,
+  ) {
+    const { count: milestonesCreated } = await this.milestonesService.create(
+      createManyMilestonesInput,
+    );
+    return { milestonesCreated };
   }
 
   @Query('milestones')
-  findAll() {
-    return this.milestonesService.findAll();
+  findAll(@Args('kladId') kladId: string) {
+    return this.milestonesService.findAllByKlad(kladId);
   }
 
   @Query('milestone')
-  findOne(@Args('id') id: number) {
-    return this.milestonesService.findOne(id);
+  findOne(@Args('id') id: string) {
+    return this.milestonesService.findOne({ id });
   }
 
   @Mutation('updateMilestone')
-  update(@Args('updateMilestoneInput') updateMilestoneInput: UpdateMilestoneInput) {
-    return this.milestonesService.update(updateMilestoneInput.id, updateMilestoneInput);
+  update(
+    @Args('id') id: string,
+    @Args('updateMilestoneInput')
+    updateMilestoneInput: Prisma.MilestoneUpdateInput,
+  ) {
+    return this.milestonesService.update({ id }, updateMilestoneInput);
   }
 
   @Mutation('removeMilestone')
-  remove(@Args('id') id: number) {
-    return this.milestonesService.remove(id);
+  remove(@Args('id') id: string) {
+    return this.milestonesService.remove({ id });
+  }
+
+  @ResolveField('klad', () => Klad)
+  klad(@Parent() milestone: Milestone) {
+    return this.kladsService.findOne({ id: milestone.kladId });
   }
 }
