@@ -208,6 +208,7 @@ export class Company {
     country: string;
     email: string;
     website?: Nullable<string>;
+    klads?: Nullable<Nullable<Klad>[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }

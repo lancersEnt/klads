@@ -17,6 +17,7 @@ type Company @key(fields: "id") {
   country: String!
   email: String!
   website: String
+  klads: [Klad]
   createdAt: DateTime
   updatedAt: DateTime
 }

@@ -3,21 +3,21 @@ import {
   Query,
   Mutation,
   Args,
-  ResolveReference,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
 import { Prisma } from '@prisma/client';
-import { Category, SubCategory } from 'src/graphql';
+import { Category, Klad, SubCategory } from 'src/graphql';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
-import { log } from 'console';
+import { KladsService } from 'src/klads/klads.service';
 
 @Resolver('Category')
 export class CategoriesResolver {
   constructor(
     private readonly categoriesService: CategoriesService,
     private readonly subCategortiesService: SubCategoriesService,
+    private readonly kladsService: KladsService,
   ) {}
 
   @Mutation('createCategory')
@@ -52,7 +52,11 @@ export class CategoriesResolver {
 
   @ResolveField('subCategories', () => [SubCategory])
   subCategories(@Parent() category: Category) {
-    log('salemou3alaykom');
     return this.subCategortiesService.forCategory(category.id);
+  }
+
+  @ResolveField('klads', () => [Klad])
+  klads(@Parent() category: Category) {
+    return this.kladsService.forCategory(category.id);
   }
 }

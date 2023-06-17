@@ -1,10 +1,26 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { KladsService } from './klads.service';
 import { Prisma } from '@prisma/client';
+import { Category, Company, Klad, SubCategory } from 'src/graphql';
+import { CategoriesService } from 'src/categories/categories.service';
+import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
+import { CompaniesService } from 'src/companies/companies.service';
 
 @Resolver('Klad')
 export class KladsResolver {
-  constructor(private readonly kladsService: KladsService) {}
+  constructor(
+    private readonly kladsService: KladsService,
+    private readonly categoriesService: CategoriesService,
+    private readonly subCategoriesService: SubCategoriesService,
+    private readonly companiesService: CompaniesService,
+  ) {}
 
   @Mutation('createKlad')
   create(@Args('createKladInput') createKladInput: Prisma.KladCreateInput) {
@@ -32,5 +48,20 @@ export class KladsResolver {
   @Mutation('removeKlad')
   remove(@Args('id') id: string) {
     return this.kladsService.remove({ id });
+  }
+
+  @ResolveField('category', () => Category)
+  category(@Parent() klad: Klad) {
+    return this.categoriesService.findOne({ id: klad.categoryId });
+  }
+
+  @ResolveField('subCategory', () => SubCategory)
+  subCategory(@Parent() klad: Klad) {
+    return this.subCategoriesService.findOne({ id: klad.subCategoryId });
+  }
+
+  @ResolveField('company', () => Company)
+  company(@Parent() klad: Klad) {
+    return this.companiesService.findOne({ id: klad.companyId });
   }
 }

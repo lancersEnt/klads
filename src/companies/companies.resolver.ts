@@ -1,10 +1,22 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { CompaniesService } from './companies.service';
 import { Prisma } from '@prisma/client';
+import { KladsService } from 'src/klads/klads.service';
+import { Company, Klad } from 'src/graphql';
 
 @Resolver('Company')
 export class CompaniesResolver {
-  constructor(private readonly companiesService: CompaniesService) {}
+  constructor(
+    private readonly companiesService: CompaniesService,
+    private readonly kladsService: KladsService,
+  ) {}
 
   @Mutation('createCompany')
   create(
@@ -34,5 +46,10 @@ export class CompaniesResolver {
   @Mutation('removeCompany')
   remove(@Args('id') id: string) {
     return this.companiesService.remove({ id });
+  }
+
+  @ResolveField('klads', () => [Klad])
+  klads(@Parent() company: Company) {
+    return this.kladsService.forCompany(company.id);
   }
 }
