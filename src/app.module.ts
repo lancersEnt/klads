@@ -14,6 +14,7 @@ import { CompaniesModule } from './companies/companies.module';
 import { DateTimeResolver } from 'graphql-scalars';
 import { CategoriesModule } from './categories/categories.module';
 import { SubCategoriesModule } from './sub-categories/sub-categories.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { SubCategoriesModule } from './sub-categories/sub-categories.module';
         DateTime: DateTimeResolver,
       },
     }),
+    AuthModule,
     KladsModule,
     MilestonesModule,
     CompaniesModule,

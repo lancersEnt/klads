@@ -29,6 +29,8 @@ model Klad {
     createdAt           DateTime?   @default(now())
     updatedAt           DateTime?   @default(now())
 
+    @@unique([id, ownerId])
+
 }
 
 model Category{

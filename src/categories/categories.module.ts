@@ -4,6 +4,8 @@ import { CategoriesResolver } from './categories.resolver';
 import { PrismaService } from 'prisma/prisma.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
 import { KladsService } from 'src/klads/klads.service';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   providers: [
@@ -12,6 +14,8 @@ import { KladsService } from 'src/klads/klads.service';
     SubCategoriesService,
     KladsService,
     PrismaService,
+    AuthService,
+    JwtService,
   ],
 })
 export class CategoriesModule {}

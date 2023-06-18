@@ -80,6 +80,6 @@ extend type Query {
 
 type Mutation {
   createKlad(createKladInput: CreateKladInput!): Klad!
-  updateKlad(updateKladInput: UpdateKladInput!): Klad!
+  updateKlad(id: String!, updateKladInput: UpdateKladInput!): Klad!
   removeKlad(id: String!): Klad
 }

@@ -148,7 +148,7 @@ export abstract class IMutation {
 
     abstract createKlad(createKladInput: CreateKladInput): Klad | Promise<Klad>;
 
-    abstract updateKlad(updateKladInput: UpdateKladInput): Klad | Promise<Klad>;
+    abstract updateKlad(id: string, updateKladInput: UpdateKladInput): Klad | Promise<Klad>;
 
     abstract removeKlad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
 
