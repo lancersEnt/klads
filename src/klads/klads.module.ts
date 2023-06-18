@@ -6,6 +6,7 @@ import { CompaniesService } from 'src/companies/companies.service';
 import { CategoriesService } from 'src/categories/categories.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
 import { MilestonesService } from 'src/milestones/milestones.service';
+import { UsersResolver } from './users.resolver';
 
 @Module({
   providers: [
@@ -16,6 +17,7 @@ import { MilestonesService } from 'src/milestones/milestones.service';
     CategoriesService,
     CompaniesService,
     MilestonesService,
+    UsersResolver,
   ],
 })
 export class KladsModule {}

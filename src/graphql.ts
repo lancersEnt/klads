@@ -8,14 +8,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export class CreateApprovalInput {
-    exampleField?: Nullable<number>;
-}
-
-export class UpdateApprovalInput {
-    id: number;
-}
-
 export class CreateCategoryInput {
     name: string;
     createdAt?: Nullable<DateTime>;
@@ -46,14 +38,6 @@ export class UpdateCompanyInput {
     email?: Nullable<string>;
     website?: Nullable<string>;
     updatedAt?: Nullable<DateTime>;
-}
-
-export class CreateInvestmentInput {
-    exampleField?: Nullable<number>;
-}
-
-export class UpdateInvestmentInput {
-    id: number;
 }
 
 export class CreateKladInput {
@@ -118,15 +102,16 @@ export class UpdateSubCategoryInput {
     updatedAt?: Nullable<DateTime>;
 }
 
-export class Approval {
-    exampleField?: Nullable<number>;
+export class Category {
+    id: string;
+    name: string;
+    subCategories?: Nullable<SubCategory[]>;
+    klads?: Nullable<Nullable<Klad>[]>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
 }
 
 export abstract class IQuery {
-    abstract approvals(): Nullable<Approval>[] | Promise<Nullable<Approval>[]>;
-
-    abstract approval(id: number): Nullable<Approval> | Promise<Nullable<Approval>>;
-
     abstract categories(): Nullable<Category>[] | Promise<Nullable<Category>[]>;
 
     abstract category(id: string): Nullable<Category> | Promise<Nullable<Category>>;
@@ -134,10 +119,6 @@ export abstract class IQuery {
     abstract companies(): Nullable<Company>[] | Promise<Nullable<Company>[]>;
 
     abstract company(id: string): Nullable<Company> | Promise<Nullable<Company>>;
-
-    abstract investments(): Nullable<Investment>[] | Promise<Nullable<Investment>[]>;
-
-    abstract investment(id: number): Nullable<Investment> | Promise<Nullable<Investment>>;
 
     abstract klads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
 
@@ -153,12 +134,6 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract createApproval(createApprovalInput: CreateApprovalInput): Approval | Promise<Approval>;
-
-    abstract updateApproval(updateApprovalInput: UpdateApprovalInput): Approval | Promise<Approval>;
-
-    abstract removeApproval(id: number): Nullable<Approval> | Promise<Nullable<Approval>>;
-
     abstract createCategory(createCategoryInput: CreateCategoryInput): Category | Promise<Category>;
 
     abstract updateCategory(updateCategoryInput: UpdateCategoryInput): Category | Promise<Category>;
@@ -171,15 +146,9 @@ export abstract class IMutation {
 
     abstract removeCompany(id: string): Nullable<Company> | Promise<Nullable<Company>>;
 
-    abstract createInvestment(createInvestmentInput: CreateInvestmentInput): Investment | Promise<Investment>;
-
-    abstract updateInvestment(updateInvestmentInput: UpdateInvestmentInput): Investment | Promise<Investment>;
-
-    abstract removeInvestment(id: number): Nullable<Investment> | Promise<Nullable<Investment>>;
-
     abstract createKlad(createKladInput: CreateKladInput): Klad | Promise<Klad>;
 
-    abstract updateKlad(updateKladInput: UpdateKladInput): Klad | Promise<Klad>;
+    abstract updateKlad(id: string, updateKladInput: UpdateKladInput): Klad | Promise<Klad>;
 
     abstract removeKlad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
 
@@ -196,15 +165,6 @@ export abstract class IMutation {
     abstract removeSubCategory(id: string): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
 }
 
-export class Category {
-    id: string;
-    name: string;
-    subCategories?: Nullable<SubCategory[]>;
-    klads?: Nullable<Nullable<Klad>[]>;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
-}
-
 export class Company {
     id: string;
     name: string;
@@ -217,10 +177,6 @@ export class Company {
     klads?: Nullable<Nullable<Klad>[]>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
-}
-
-export class Investment {
-    exampleField?: Nullable<number>;
 }
 
 export class Klad {
@@ -274,7 +230,7 @@ export class SubCategory {
 
 export class User {
     id: string;
-    klads?: Nullable<Klad[]>;
+    klads?: Nullable<Nullable<Klad>[]>;
 }
 
 export type DateTime = any;

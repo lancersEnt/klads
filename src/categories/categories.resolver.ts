@@ -11,6 +11,8 @@ import { Prisma } from '@prisma/client';
 import { Category, Klad, SubCategory } from 'src/graphql';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
 import { KladsService } from 'src/klads/klads.service';
+import { UseGuards } from '@nestjs/common';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Resolver('Category')
 export class CategoriesResolver {
@@ -20,6 +22,7 @@ export class CategoriesResolver {
     private readonly kladsService: KladsService,
   ) {}
 
+  @UseGuards(AdminGuard)
   @Mutation('createCategory')
   create(
     @Args('createCategoryInput') createCategoryInput: Prisma.CompanyCreateInput,
@@ -27,16 +30,19 @@ export class CategoriesResolver {
     return this.categoriesService.create(createCategoryInput);
   }
 
+  @UseGuards(AdminGuard)
   @Query('categories')
   findAll() {
     return this.categoriesService.findAll();
   }
 
+  @UseGuards(AdminGuard)
   @Query('category')
   findOne(@Args('id') id: string) {
     return this.categoriesService.findOne({ id });
   }
 
+  @UseGuards(AdminGuard)
   @Mutation('updateCategory')
   update(
     @Args('id') id: string,
@@ -45,6 +51,7 @@ export class CategoriesResolver {
     return this.categoriesService.update({ id }, updateCategoryInput);
   }
 
+  @UseGuards(AdminGuard)
   @Mutation('removeCategory')
   remove(@Args('id') id: string) {
     return this.categoriesService.remove({ id });
