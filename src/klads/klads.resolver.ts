@@ -68,10 +68,7 @@ export class KladsResolver {
   ) {
     const { req: request, res } = context;
     const ownerId: string = request.user.userId;
-    return this.kladsService.update(
-      { id_ownerId: { id, ownerId } },
-      updateKladInput,
-    );
+    return this.kladsService.update({ id }, updateKladInput);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -79,7 +76,7 @@ export class KladsResolver {
   remove(@Args('id') id: string, @Context() context: any) {
     const { req: request, res } = context;
     const ownerId: string = request.user.userId;
-    return this.kladsService.remove({ id_ownerId: { id, ownerId } });
+    return this.kladsService.remove({ id });
   }
 
   @ResolveField('category', () => Category)
