@@ -9,21 +9,14 @@ import {
 } from '@nestjs/graphql';
 import { KladsService } from './klads.service';
 import { Prisma } from '@prisma/client';
-import {
-  Category,
-  Company,
-  Klad,
-  Milestone,
-  SubCategory,
-  User,
-} from 'src/graphql';
+import { Category, Klad, Milestone, SubCategory, User } from 'src/graphql';
 import { CategoriesService } from 'src/categories/categories.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
-import { CompaniesService } from 'src/companies/companies.service';
 import { MilestonesService } from 'src/milestones/milestones.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { log } from 'console';
+import { PageGuard } from 'src/auth/guards/page.guard';
 
 @Resolver('Klad')
 export class KladsResolver {
@@ -31,11 +24,10 @@ export class KladsResolver {
     private readonly kladsService: KladsService,
     private readonly categoriesService: CategoriesService,
     private readonly subCategoriesService: SubCategoriesService,
-    private readonly companiesService: CompaniesService,
     private readonly milestonesService: MilestonesService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PageGuard)
   @Mutation('createKlad')
   create(
     @Args('createKladInput') createKladInput: Prisma.KladCreateInput,
@@ -87,11 +79,6 @@ export class KladsResolver {
   @ResolveField('subCategory', () => SubCategory)
   subCategory(@Parent() klad: Klad) {
     return this.subCategoriesService.findOne({ id: klad.subCategoryId });
-  }
-
-  @ResolveField('company', () => Company)
-  company(@Parent() klad: Klad) {
-    return this.companiesService.findOne({ id: klad.companyId });
   }
 
   @ResolveField('milestones', () => [Milestone])

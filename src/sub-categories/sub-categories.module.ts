@@ -6,6 +6,7 @@ import { CategoriesService } from 'src/categories/categories.service';
 import { KladsService } from 'src/klads/klads.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { GraphService } from 'src/graph/graph.service';
 
 @Module({
   providers: [
@@ -14,6 +15,7 @@ import { JwtService } from '@nestjs/jwt';
     SubCategoriesResolver,
     SubCategoriesService,
     CategoriesService,
+    GraphService,
     KladsService,
     PrismaService,
   ],

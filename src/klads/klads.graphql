@@ -9,15 +9,15 @@ scalar DateTime
 
 type Klad @key(fields: "id"){
   id: ID!
-  ownerId: String!
-  isApproved: Boolean!
-  isRejected: Boolean!
   name: String!
+  description: String!
+  ownerId: String!
   categoryId: String!
   subCategoryId: String!
-  description: String!
+  isDraft: Boolean!
+  isApproved: Boolean
+  isRejected: Boolean
   tags: [String]
-  companyId: String!
   budgetNeeded: Float!
   budgetCollected: Float!
   partPrice: Float!
@@ -27,10 +27,10 @@ type Klad @key(fields: "id"){
   owner: User
   category: Category
   subCategory: SubCategory
-  company: Company
   createdAt: DateTime
   updatedAt: DateTime
 }
+
 
 extend type User @key(fields: "id") {
   id:ID! @external
@@ -38,17 +38,12 @@ extend type User @key(fields: "id") {
 }
 
 input CreateKladInput {
-  ownerId: String!
-  isApproved: Boolean!
-  isRejected: Boolean!
   name: String!
   categoryId: String!
   subCategoryId: String!
   description: String!
   tags: [String]
-  companyId: String!
   budgetNeeded: Float!
-  budgetCollected: Float!
   partPrice: Float!
   minPartsPurchasable: Int!
   maxPartsPurchasable: Int!
@@ -64,7 +59,6 @@ input UpdateKladInput {
   subCategoryId: String
   description: String
   tags: [String]
-  companyId: String
   budgetNeeded: Float
   budgetCollected: Float
   partPrice: Float

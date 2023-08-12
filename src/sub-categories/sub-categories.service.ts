@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { GraphService } from 'src/graph/graph.service';
 
 @Injectable()
 export class SubCategoriesService {
-  constructor(private prisma: PrismaService) {}
-  create(createSubCategoryInput: Prisma.SubCategoryCreateInput) {
-    return this.prisma.subCategory.create({
+  constructor(private prisma: PrismaService, private graph: GraphService) {}
+  async create(createSubCategoryInput: Prisma.SubCategoryCreateInput) {
+    await this.prisma.category.findUniqueOrThrow({
+      where: { id: createSubCategoryInput.categoryId },
+    });
+    const subcat = await this.prisma.subCategory.create({
       data: createSubCategoryInput,
     });
+    this.graph.createSubCategoryNode(subcat);
+    return subcat;
   }
 
   findAll() {

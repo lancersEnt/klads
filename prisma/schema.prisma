@@ -12,17 +12,17 @@ datasource db {
 
 model Klad {
     id                  String      @id @default(uuid()) @map("_id") 
-    ownerId             String
-    isApproved          Boolean     @default(false)
-    isRejected          Boolean     @default(false)
+    ownerId             String?
+    isApproved          Boolean?
+    isRejected          Boolean?
+    isDraft             Boolean?    @default(true)
     name                String
     categoryId          String
     subCategoryId       String
     description         String
     tags                String[]
-    companyId           String
     budgetNeeded        Float
-    budgetCollected     Float       @default(0)     
+    budgetCollected     Float?       @default(0)     
     partPrice           Float
     minPartsPurchasable Int
     maxPartsPurchasable Int
@@ -49,18 +49,7 @@ model SubCategory{
   updatedAt             DateTime?   @default(now())
 }
 
-model Company{
-  id                    String      @id @default(uuid()) @map("_id") 
-  name                  String
-  adress                String
-  city                  String
-  state                 String
-  country               String
-  email                 String
-  website               String
-  createdAt             DateTime?   @default(now())
-  updatedAt             DateTime?   @default(now())
-}
+
 
 model Milestone{
   id                    String      @id @default(uuid()) @map("_id")

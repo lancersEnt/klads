@@ -1,14 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { log } from 'console';
 import { PrismaService } from 'prisma/prisma.service';
+import { GraphService } from 'src/graph/graph.service';
 
 @Injectable()
 export class KladsService {
-  constructor(private prisma: PrismaService) {}
-  create(createKladInput: Prisma.KladCreateInput) {
-    return this.prisma.klad.create({
+  constructor(private prisma: PrismaService, private graph: GraphService) {}
+  async create(createKladInput: Prisma.KladCreateInput) {
+    await this.prisma.category.findUniqueOrThrow({
+      where: { id: createKladInput.categoryId },
+    });
+    await this.prisma.subCategory.findUniqueOrThrow({
+      where: { id: createKladInput.subCategoryId },
+    });
+
+    const klad = await this.prisma.klad.create({
       data: createKladInput,
     });
+
+    log(klad);
+
+    this.graph.createKladNode(klad);
+
+    return klad;
   }
 
   findAll() {
@@ -49,14 +64,6 @@ export class KladsService {
     return this.prisma.klad.findMany({
       where: {
         subCategoryId: id,
-      },
-    });
-  }
-
-  forCompany(id: string) {
-    return this.prisma.klad.findMany({
-      where: {
-        companyId: id,
       },
     });
   }

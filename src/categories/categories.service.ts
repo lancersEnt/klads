@@ -1,14 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { GraphService } from 'src/graph/graph.service';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private prisma: PrismaService) {}
-  create(createCategoryInput: Prisma.CategoryCreateInput) {
-    return this.prisma.category.create({
+  constructor(private prisma: PrismaService, private graph: GraphService) {}
+
+  async create(createCategoryInput: Prisma.CategoryCreateInput) {
+    const cat = await this.prisma.category.create({
       data: createCategoryInput,
     });
+    this.graph.createCategoryNode(cat);
+    return cat;
   }
 
   findAll() {
@@ -23,7 +27,7 @@ export class CategoriesService {
 
   update(
     uniqueInput: Prisma.CategoryWhereUniqueInput,
-    updateCategoryInput: Prisma.CompanyUpdateInput,
+    updateCategoryInput: Prisma.CategoryUpdateInput,
   ) {
     return this.prisma.category.update({
       where: uniqueInput,

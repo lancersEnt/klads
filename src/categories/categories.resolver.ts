@@ -13,6 +13,7 @@ import { SubCategoriesService } from 'src/sub-categories/sub-categories.service'
 import { KladsService } from 'src/klads/klads.service';
 import { UseGuards } from '@nestjs/common';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Resolver('Category')
 export class CategoriesResolver {
@@ -25,12 +26,13 @@ export class CategoriesResolver {
   @UseGuards(AdminGuard)
   @Mutation('createCategory')
   create(
-    @Args('createCategoryInput') createCategoryInput: Prisma.CompanyCreateInput,
+    @Args('createCategoryInput')
+    createCategoryInput: Prisma.CategoryCreateInput,
   ) {
     return this.categoriesService.create(createCategoryInput);
   }
 
-  @UseGuards(AdminGuard)
+  @UseGuards(JwtAuthGuard)
   @Query('categories')
   findAll() {
     return this.categoriesService.findAll();
@@ -46,7 +48,8 @@ export class CategoriesResolver {
   @Mutation('updateCategory')
   update(
     @Args('id') id: string,
-    @Args('updateCategoryInput') updateCategoryInput: Prisma.CompanyUpdateInput,
+    @Args('updateCategoryInput')
+    updateCategoryInput: Prisma.CategoryCreateInput,
   ) {
     return this.categoriesService.update({ id }, updateCategoryInput);
   }

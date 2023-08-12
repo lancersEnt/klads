@@ -18,40 +18,14 @@ export class UpdateCategoryInput {
     updatedAt?: Nullable<DateTime>;
 }
 
-export class CreateCompanyInput {
-    name: string;
-    adress: string;
-    city: string;
-    state: string;
-    country: string;
-    email: string;
-    website?: Nullable<string>;
-    createdAt?: Nullable<DateTime>;
-}
-
-export class UpdateCompanyInput {
-    name?: Nullable<string>;
-    adress?: Nullable<string>;
-    city?: Nullable<string>;
-    state?: Nullable<string>;
-    country?: Nullable<string>;
-    email?: Nullable<string>;
-    website?: Nullable<string>;
-    updatedAt?: Nullable<DateTime>;
-}
-
 export class CreateKladInput {
-    ownerId: string;
-    isApproved: boolean;
-    isRejected: boolean;
+    ownerId?: Nullable<string>;
     name: string;
     categoryId: string;
     subCategoryId: string;
     description: string;
     tags?: Nullable<Nullable<string>[]>;
-    companyId: string;
     budgetNeeded: number;
-    budgetCollected: number;
     partPrice: number;
     minPartsPurchasable: number;
     maxPartsPurchasable: number;
@@ -67,7 +41,6 @@ export class UpdateKladInput {
     subCategoryId?: Nullable<string>;
     description?: Nullable<string>;
     tags?: Nullable<Nullable<string>[]>;
-    companyId?: Nullable<string>;
     budgetNeeded?: Nullable<number>;
     budgetCollected?: Nullable<number>;
     partPrice?: Nullable<number>;
@@ -116,10 +89,6 @@ export abstract class IQuery {
 
     abstract category(id: string): Nullable<Category> | Promise<Nullable<Category>>;
 
-    abstract companies(): Nullable<Company>[] | Promise<Nullable<Company>[]>;
-
-    abstract company(id: string): Nullable<Company> | Promise<Nullable<Company>>;
-
     abstract klads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
 
     abstract klad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
@@ -140,12 +109,6 @@ export abstract class IMutation {
 
     abstract removeCategory(id: string): Nullable<Category> | Promise<Nullable<Category>>;
 
-    abstract createCompany(createCompanyInput: CreateCompanyInput): Company | Promise<Company>;
-
-    abstract updateCompany(id: string, updateCompanyInput: UpdateCompanyInput): Company | Promise<Company>;
-
-    abstract removeCompany(id: string): Nullable<Company> | Promise<Nullable<Company>>;
-
     abstract createKlad(createKladInput: CreateKladInput): Klad | Promise<Klad>;
 
     abstract updateKlad(id: string, updateKladInput: UpdateKladInput): Klad | Promise<Klad>;
@@ -165,31 +128,17 @@ export abstract class IMutation {
     abstract removeSubCategory(id: string): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
 }
 
-export class Company {
-    id: string;
-    name: string;
-    adress: string;
-    city: string;
-    state: string;
-    country: string;
-    email: string;
-    website?: Nullable<string>;
-    klads?: Nullable<Nullable<Klad>[]>;
-    createdAt?: Nullable<DateTime>;
-    updatedAt?: Nullable<DateTime>;
-}
-
 export class Klad {
     id: string;
-    ownerId: string;
-    isApproved: boolean;
-    isRejected: boolean;
     name: string;
+    description: string;
+    ownerId: string;
     categoryId: string;
     subCategoryId: string;
-    description: string;
+    isDraft: boolean;
+    isApproved?: Nullable<boolean>;
+    isRejected?: Nullable<boolean>;
     tags?: Nullable<Nullable<string>[]>;
-    companyId: string;
     budgetNeeded: number;
     budgetCollected: number;
     partPrice: number;
@@ -199,7 +148,6 @@ export class Klad {
     owner?: Nullable<User>;
     category?: Nullable<Category>;
     subCategory?: Nullable<SubCategory>;
-    company?: Nullable<Company>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }
