@@ -10,6 +10,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { GraphService } from 'src/graph/graph.service';
+import { KafkaService } from 'src/kafka/kafka.service';
+import { InvestmentService } from 'src/investment/investment.service';
 
 @Module({
   providers: [
@@ -20,9 +22,11 @@ import { GraphService } from 'src/graph/graph.service';
     SubCategoriesService,
     CategoriesService,
     MilestonesService,
+    InvestmentService,
     UsersResolver,
     AuthService,
     JwtService,
+    KafkaService,
   ],
   imports: [AuthModule],
 })

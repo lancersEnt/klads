@@ -14,6 +14,8 @@ import { SubCategoriesModule } from './sub-categories/sub-categories.module';
 import { AuthModule } from './auth/auth.module';
 import { Neo4jModule } from '@nhogs/nestjs-neo4j';
 import { GraphService } from './graph/graph.service';
+import { KafkaModule } from './kafka/kafka.module';
+import { InvestmentModule } from './investment/investment.module';
 
 @Module({
   imports: [
@@ -36,10 +38,12 @@ import { GraphService } from './graph/graph.service';
       global: true,
     }),
     AuthModule,
+    KafkaModule,
     KladsModule,
     MilestonesModule,
     CategoriesModule,
     SubCategoriesModule,
+    InvestmentModule,
   ],
   controllers: [],
   providers: [PrismaService, GraphService],

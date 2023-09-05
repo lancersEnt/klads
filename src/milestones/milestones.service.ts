@@ -45,6 +45,9 @@ export class MilestonesService {
       where: {
         kladId: id,
       },
+      orderBy: {
+        dueDate: 'asc',
+      },
     });
   }
 }

@@ -7,6 +7,7 @@ import { KladsService } from 'src/klads/klads.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { GraphService } from 'src/graph/graph.service';
+import { KafkaService } from 'src/kafka/kafka.service';
 
 @Module({
   providers: [
@@ -18,6 +19,7 @@ import { GraphService } from 'src/graph/graph.service';
     GraphService,
     KladsService,
     PrismaService,
+    KafkaService,
   ],
 })
 export class SubCategoriesModule {}

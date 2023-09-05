@@ -11,12 +11,16 @@ type Klad @key(fields: "id"){
   id: ID!
   name: String!
   description: String!
+  pictureUrl: String
+  coverPictureUrl: String
   ownerId: String!
   categoryId: String!
   subCategoryId: String!
   isDraft: Boolean!
+  inReview: Boolean
   isApproved: Boolean
   isRejected: Boolean
+  archivedMessagesUrl: String
   tags: [String]
   budgetNeeded: Float!
   budgetCollected: Float!
@@ -24,6 +28,10 @@ type Klad @key(fields: "id"){
   minPartsPurchasable: Int!
   maxPartsPurchasable: Int!
   milestones: [Milestone]
+  investments: [Investment]
+  pictures:[String]
+  documents:[String]
+  videos:[String]
   owner: User
   category: Category
   subCategory: SubCategory
@@ -51,9 +59,13 @@ input CreateKladInput {
 }
 
 input UpdateKladInput {
-  ownerId: String
+  pictureUrl: String
+  coverPictureUrl: String
   isApproved: Boolean
   isRejected: Boolean
+  archivedMessagesUrl: String
+  isDraft: Boolean
+  inReview: Boolean
   name: String
   categoryId: String
   subCategoryId: String
@@ -65,11 +77,25 @@ input UpdateKladInput {
   minPartsPurchasable: Int
   maxPartsPurchasable: Int
   updatedAt: DateTime
+  pictures:[String]
+  videos:[String]
+  documents:[String]
+}
+
+input Filter {
+  categories: [String]
+  subCategories: [String]
 }
 
 extend type Query {
   klads: [Klad]!
+  filtredKlads(filter: Filter):[Klad]! 
+  recommendedKlads: [Klad]!
+  submittedKlads: [Klad]!
+  myKlads: [Klad]!
+  approvedKlads: [Klad]!
   klad(id: String!): Klad
+  liveKlad(id: String!): Klad
 }
 
 type Mutation {

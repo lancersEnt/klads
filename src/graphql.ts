@@ -18,8 +18,13 @@ export class UpdateCategoryInput {
     updatedAt?: Nullable<DateTime>;
 }
 
+export class CreateInvestmentInput {
+    partsPurchased: number;
+    kladId: string;
+    investorId: string;
+}
+
 export class CreateKladInput {
-    ownerId?: Nullable<string>;
     name: string;
     categoryId: string;
     subCategoryId: string;
@@ -33,9 +38,13 @@ export class CreateKladInput {
 }
 
 export class UpdateKladInput {
-    ownerId?: Nullable<string>;
+    pictureUrl?: Nullable<string>;
+    coverPictureUrl?: Nullable<string>;
     isApproved?: Nullable<boolean>;
     isRejected?: Nullable<boolean>;
+    archivedMessagesUrl?: Nullable<string>;
+    isDraft?: Nullable<boolean>;
+    inReview?: Nullable<boolean>;
     name?: Nullable<string>;
     categoryId?: Nullable<string>;
     subCategoryId?: Nullable<string>;
@@ -47,6 +56,14 @@ export class UpdateKladInput {
     minPartsPurchasable?: Nullable<number>;
     maxPartsPurchasable?: Nullable<number>;
     updatedAt?: Nullable<DateTime>;
+    pictures?: Nullable<Nullable<string>[]>;
+    videos?: Nullable<Nullable<string>[]>;
+    documents?: Nullable<Nullable<string>[]>;
+}
+
+export class Filter {
+    categories?: Nullable<Nullable<string>[]>;
+    subCategories?: Nullable<Nullable<string>[]>;
 }
 
 export class CreateMilestoneInput {
@@ -89,9 +106,23 @@ export abstract class IQuery {
 
     abstract category(id: string): Nullable<Category> | Promise<Nullable<Category>>;
 
+    abstract investment(id: string): Nullable<Investment> | Promise<Nullable<Investment>>;
+
     abstract klads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
 
+    abstract filtredKlads(filter?: Nullable<Filter>): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
+
+    abstract recommendedKlads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
+
+    abstract submittedKlads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
+
+    abstract myKlads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
+
+    abstract approvedKlads(): Nullable<Klad>[] | Promise<Nullable<Klad>[]>;
+
     abstract klad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
+
+    abstract liveKlad(id: string): Nullable<Klad> | Promise<Nullable<Klad>>;
 
     abstract milestones(kladId?: Nullable<string>): Nullable<Milestone>[] | Promise<Nullable<Milestone>[]>;
 
@@ -108,6 +139,8 @@ export abstract class IMutation {
     abstract updateCategory(updateCategoryInput: UpdateCategoryInput): Category | Promise<Category>;
 
     abstract removeCategory(id: string): Nullable<Category> | Promise<Nullable<Category>>;
+
+    abstract createInvestment(createInvestmentInput?: Nullable<CreateInvestmentInput>): Investment | Promise<Investment>;
 
     abstract createKlad(createKladInput: CreateKladInput): Klad | Promise<Klad>;
 
@@ -128,16 +161,30 @@ export abstract class IMutation {
     abstract removeSubCategory(id: string): Nullable<SubCategory> | Promise<Nullable<SubCategory>>;
 }
 
+export class Investment {
+    id: string;
+    partsPurchased: number;
+    kladId: string;
+    investorId: string;
+    investor?: Nullable<User>;
+    klad?: Nullable<Klad>;
+    createdAt?: Nullable<DateTime>;
+}
+
 export class Klad {
     id: string;
     name: string;
     description: string;
+    pictureUrl?: Nullable<string>;
+    coverPictureUrl?: Nullable<string>;
     ownerId: string;
     categoryId: string;
     subCategoryId: string;
     isDraft: boolean;
+    inReview?: Nullable<boolean>;
     isApproved?: Nullable<boolean>;
     isRejected?: Nullable<boolean>;
+    archivedMessagesUrl?: Nullable<string>;
     tags?: Nullable<Nullable<string>[]>;
     budgetNeeded: number;
     budgetCollected: number;
@@ -145,6 +192,10 @@ export class Klad {
     minPartsPurchasable: number;
     maxPartsPurchasable: number;
     milestones?: Nullable<Nullable<Milestone>[]>;
+    investments?: Nullable<Nullable<Investment>[]>;
+    pictures?: Nullable<Nullable<string>[]>;
+    documents?: Nullable<Nullable<string>[]>;
+    videos?: Nullable<Nullable<string>[]>;
     owner?: Nullable<User>;
     category?: Nullable<Category>;
     subCategory?: Nullable<SubCategory>;
@@ -178,6 +229,7 @@ export class SubCategory {
 
 export class User {
     id: string;
+    investments?: Nullable<Nullable<Investment>[]>;
     klads?: Nullable<Nullable<Klad>[]>;
 }
 

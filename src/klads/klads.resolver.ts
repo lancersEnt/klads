@@ -6,10 +6,18 @@ import {
   ResolveField,
   Parent,
   Context,
+  ResolveReference,
 } from '@nestjs/graphql';
 import { KladsService } from './klads.service';
 import { Prisma } from '@prisma/client';
-import { Category, Klad, Milestone, SubCategory, User } from 'src/graphql';
+import {
+  Category,
+  Investment,
+  Klad,
+  Milestone,
+  SubCategory,
+  User,
+} from 'src/graphql';
 import { CategoriesService } from 'src/categories/categories.service';
 import { SubCategoriesService } from 'src/sub-categories/sub-categories.service';
 import { MilestonesService } from 'src/milestones/milestones.service';
@@ -17,6 +25,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { log } from 'console';
 import { PageGuard } from 'src/auth/guards/page.guard';
+import { InvestmentService } from 'src/investment/investment.service';
 
 @Resolver('Klad')
 export class KladsResolver {
@@ -25,6 +34,7 @@ export class KladsResolver {
     private readonly categoriesService: CategoriesService,
     private readonly subCategoriesService: SubCategoriesService,
     private readonly milestonesService: MilestonesService,
+    private readonly investmentsService: InvestmentService,
   ) {}
 
   @UseGuards(JwtAuthGuard, PageGuard)
@@ -41,14 +51,56 @@ export class KladsResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query('klads')
-  findAll() {
-    return this.kladsService.findAll();
+  findAll(@Context() context: any) {
+    const { req: request, res } = context;
+    const userId: string = request.user.userId;
+    return this.kladsService.findAll(userId);
   }
 
   @UseGuards(JwtAuthGuard)
+  @Query('filtredKlads')
+  filtredKlads(@Args('filter') filter: Filter) {
+    log(filter);
+    return this.kladsService.filtredKlads(filter);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query('recommendedKlads')
+  recommendedKlads(@Context() context: any) {
+    const { req: request, res } = context;
+    const userId: string = request.user.userId;
+    return this.kladsService.recommendedKlads(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query('myKlads')
+  myKlads(@Context() context: any) {
+    const { req: request, res } = context;
+    const userId: string = request.user.userId;
+    return this.kladsService.myKlads(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query('submittedKlads')
+  submittedKlads() {
+    return this.kladsService.submittedKlads();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query('approvedKlads')
+  approvedKlads() {
+    return this.kladsService.approvedKlads();
+  }
+
   @Query('klad')
   findOne(@Args('id') id: string) {
     return this.kladsService.findOne({ id });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query('liveKlad')
+  liveKlad(@Args('id') id: string) {
+    return this.kladsService.liveKlad(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -86,8 +138,22 @@ export class KladsResolver {
     return this.milestonesService.forKlad(klad.id);
   }
 
+  @ResolveField('investments', () => [Investment])
+  investments(@Parent() klad: Klad) {
+    return this.investmentsService.forKlad(klad.id);
+  }
+
   @ResolveField('owner', () => User)
   owner(@Parent() klad: Klad): any {
     return { __typename: 'User', id: klad.ownerId };
+  }
+
+  @ResolveReference()
+  resolveReference(reference: {
+    __typename: string;
+    id: string;
+  }): Promise<Klad> {
+    const id = reference.id;
+    return this.kladsService.findOne({ id });
   }
 }

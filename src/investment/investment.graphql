@@ -1,0 +1,36 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3",
+        import: ["@key", "@shareable"])
+
+directive @external on OBJECT | FIELD_DEFINITION
+
+scalar DateTime
+
+type Investment @key(fields: "id"){
+  id: ID!
+  partsPurchased: Int!
+  kladId: String!
+  investorId: String!
+  investor: User
+  klad:Klad
+  createdAt: DateTime
+}
+
+extend type User @key(fields: "id"){
+  id:ID! @external
+  investments: [Investment]
+}
+
+input CreateInvestmentInput{
+  partsPurchased: Int!
+  kladId: String!
+  investorId: String!
+}
+
+extend type Query {
+  investment(id: String!): Investment
+}
+
+type Mutation {
+  createInvestment(createInvestmentInput: CreateInvestmentInput): Investment!
+}

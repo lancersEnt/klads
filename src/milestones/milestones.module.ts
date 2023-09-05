@@ -4,6 +4,7 @@ import { MilestonesResolver } from './milestones.resolver';
 import { PrismaService } from 'prisma/prisma.service';
 import { KladsService } from 'src/klads/klads.service';
 import { GraphService } from 'src/graph/graph.service';
+import { KafkaService } from 'src/kafka/kafka.service';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { GraphService } from 'src/graph/graph.service';
     KladsService,
     PrismaService,
     GraphService,
+    KafkaService,
   ],
 })
 export class MilestonesModule {}
